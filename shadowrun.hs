@@ -73,7 +73,7 @@ soakAttack attackM dmgM ap soak = do
          attack <- attackM
          case attack of
             (True, res) -> do soaked <- dp (soak - ap)
-                              conditioned (normal ((res + dmg) - soaked) 1)
+                              conditioned $ normal ((res + dmg) - soaked) 1
             (False, _)  -> conditioned (normal 0 1) 
          return dmg
 
