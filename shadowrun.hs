@@ -73,7 +73,7 @@ soakAttack attackM dmgM ap soak = do
          attack <- attackM
          case attack of
             (True, res) -> do soaked <- dp (soak - ap)
-                              conditioned (normal ((res + dmg) - soaked) 1)
+                              conditioned (normal (fromIntegral ((res + dmg) - soaked)) 1)
             (False, _)  -> conditioned (normal 0 1) 
          return dmg
 
@@ -90,5 +90,5 @@ main4 =  do l <- mcmc (dp 10) []
 main5 =  do l <- mcmc (dp 40) []
             return $ (buildPerc 10000) $ L.sort $ frequency $ take 10000 l 
 
-main6 = do l <- mcmc (soakAttack (attackVsDodge 9 6) weaponAttack 6 24) [Just (toDyn (Lebesgue 10))]
+main6 = do l <- mcmc (soakAttack (attackVsDodge 9 6) weaponAttack 6 24) [Just (toDyn (Lebesgue (10 :: Double)))]
            return $ frequency $ take 10000 l 
