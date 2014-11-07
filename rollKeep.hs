@@ -22,10 +22,10 @@ explode = do
   add <- if (d1 == 10) then explode else return 0
   return $ d1 + add
 
-main :: IO Double 
-main = do l <- sample explode []
-          l' <- return $ map fst l
-          return $ mean $ map fromIntegral $ take 4000 l'
+main' :: IO Double 
+main' = do l <- sample explode []
+           l' <- return $ map fst l
+           return $ mean $ map fromIntegral $ take 4000 l'
 
 -- keep n k = do pool <- dp n (unconditioned d10 :: Measure Int)
 keep n k = do pool <- dp n explode
@@ -38,10 +38,11 @@ main2 = do l <- sample (keep 5 2) []
            return $ mean $ map (fromIntegral . fst) $ take 3000 l
 
 runKeepTest n k = do l <- sample (keep n k) []
-                     return $ mean $ map (fromIntegral . fst) $ take 3000 l
+                     return $ mean $ map (fromIntegral . fst) $ take 5000 l
                      
 main3 = runKeepTest
 
+rKT :: Fractional t => (Int, Int) -> IO (Int, Int, t)
 rKT (a,b) = let (a', bp) = if a < 11 then (a,0) else (10, a-10)
                 (b', bo) = if (b + bp) < 11 then (b+bp, 0) else (10, (b+bp-10)*5)
             in do x <- main3 a' b'
@@ -56,5 +57,11 @@ buildRKs n = buildRKH 1 1 n
             then (r,k):(buildRKH (r+1) 1 n)
             else (r,k):(buildRKH r (k+1) n)
     
-main4 = mapM rKT $ buildRKs 12
+main = do x <- mapM rKT $ buildRKs 12
+          putStr "roll,keep,value\n"
+          mapM (\ x -> do putStr $ printCSV x; putStr ['\n']) x
+          return ()
+
+printCSV :: (Show a, Show b, Show c) => (a, b, c) ->  String
+printCSV (a,b,c) = foldr (\ x ls -> x ++ "," ++ ls) (show c) $ [show a, show b]
 
