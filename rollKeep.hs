@@ -1,4 +1,6 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
+module RollKeep where
+
 import Language.Hakaru.ImportanceSampler
 import Language.Hakaru.Distribution
 import Language.Hakaru.Types
