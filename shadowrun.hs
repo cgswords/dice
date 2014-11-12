@@ -1,4 +1,6 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
+module Shadowrun where
+
 import Language.Hakaru.Metropolis
 import Language.Hakaru.Distribution
 import Language.Hakaru.Types
