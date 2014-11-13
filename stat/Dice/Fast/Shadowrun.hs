@@ -53,16 +53,3 @@ nets = do let ls = expectedNetHits 30
                ls
           return ()
 
-
--- foldl :: (b -> a -> b) -> b -> [a] -> b
-
--- droll :: Dist Die
--- droll =
---    liftM2 (+) (Dist.uniform [0,1]) die
--- 
--- g3 :: Probability
--- g3 = (>3) ?? die
--- 
--- addTwo :: Dist Die
--- addTwo =
---       liftM2 (+) die die
