@@ -11,6 +11,5 @@ atLeastFreq = foldr (\ x ls -> case ls of
 atMostFreq :: (Num a) => [a] -> [a]
 atMostFreq = foldl' (\ ls x -> case ls of
                                 []     -> [x]
-                                _      -> let l = last ls
-                                          in ls ++ [x+l])
+                                _      -> ls ++ [x+(last ls)])
                           []

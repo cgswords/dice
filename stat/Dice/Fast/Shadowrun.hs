@@ -24,12 +24,6 @@ cleanDice n = Dist.decons $ Dist.norm $ dice n
 expectedVal :: Int -> Double
 expectedVal n = (fromIntegral n)*0.3333333333
 
-cartProd :: [a] -> [b] -> [(a,b)]
-cartProd xs ys = [(x, y) | x <- xs, y <- ys]
-
-expectedNetHits :: Int -> [(Int, [(Int, Double)])]
-expectedNetHits n = map (\ x -> (x, map (\ y -> (y, expectedVal x - expectedVal y)) [1..n])) [1..n]
-
 hitProbs :: Int -> Int -> [Double]
 hitProbs big n = let allProbs = sortBy (\ (a,b) (c,d) -> if a < c then LT else GT) $
                                   map (\ (x, y) -> (sum x, fromRational y :: Double)) $ cleanDice n
@@ -45,6 +39,9 @@ hits = do ls <- runParIO $ parMap (\ x -> (x, hitProbs 21 x)) [1..20]
                               (foldr (\ x ls -> show x ++ "," ++ ls) "" ls) ++ "\n") 
                ls
           return ()
+
+expectedNetHits :: Int -> [(Int, [(Int, Double)])]
+expectedNetHits n = map (\ x -> (x, map (\ y -> (y, expectedVal x - expectedVal y)) [1..n])) [1..n]
 
 nets :: IO ()
 nets = do let ls = expectedNetHits 30
