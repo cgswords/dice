@@ -1,3 +1,5 @@
+module Shadowrun where
+
 import qualified Numeric.Probability.Distribution as Dist
 import Numeric.Probability.Distribution ((??),(?=<<) )
 import Control.Monad (liftM2, replicateM)
